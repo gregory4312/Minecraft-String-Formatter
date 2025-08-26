@@ -1,4 +1,4 @@
-            <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -27,7 +27,10 @@
         </div>
 
         <div class="section" id="displaySection" style="display: none;">
-            <h3>String Analysis</h3>
+            <div class="top-bar">
+                <h3>String Analysis</h3>
+                <button class="help-btn" onclick="showHelp()">?</button>
+            </div>
             <div class="info">
                 <div>Original Length: <span id="originalLength">0</span> characters</div>
                 <div>Cleared Text Length: <span id="clearedLength">0</span> characters (after removing flag)</div>
@@ -41,11 +44,11 @@
                 </div>
             </div>
             
+            <div class="string-display" id="stringDisplay"></div>
+            
             <div class="selection-info" id="selectionInfo" style="display: none;">
                 Selection: <span id="selectionDetails"></span>
             </div>
-            
-            <div class="string-display" id="stringDisplay"></div>
             
             <div style="margin-top: 15px;">
                 <button onclick="startSelection()">Select Range</button>
@@ -62,11 +65,52 @@
                 <button onclick="importBinding()">Import Binding(s)</button>
                 <button onclick="importJsonFile()">Auto-Extract from JSON File</button>
                 <button class="secondary" onclick="exportAllBindings()">Export All Bindings</button>
+                <button onclick="loadTemplate()">Load Template</button>
             </div>
             
             <div class="binding-list" id="bindingList"></div>
         </div>
     </div>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeHelp()">&times;</span>
+            <h2>How to Use This Tool</h2>
+            <div class="help-content">
+                <h3>Getting Started</h3>
+                <p>This tool helps you analyze and create bindings for Minecraft JSON UI string formatting. Here's how to use it:</p>
+                
+                <h3>1. Set Up Your Flag</h3>
+                <p>Enter the flag pattern that appears at the beginning of your string (e.g., "§f§l§a§g").</p>
+                
+                <h3>2. Input Your String</h3>
+                <p>Paste the formatted string you want to analyze. The tool will automatically remove the flag and show you the cleaned text.</p>
+                
+                <h3>3. Select Text Ranges</h3>
+                <ol>
+                    <li>Click "Select Range" to enter selection mode</li>
+                    <li>Click on the start position of the text you want to bind</li>
+                    <li>Click on the end position to complete the selection</li>
+                    <li>Characters will blink when you're in selection mode</li>
+                </ol>
+                
+                <h3>4. Create Bindings</h3>
+                <p>After selecting a range, enter a target property name (like "#player_health") and click "Create Binding".</p>
+                
+                <h3>5. Import/Export</h3>
+                <p>You can import existing bindings or export your created bindings as JSON.</p>
+                
+                <h3>Try the Template</h3>
+                <p>Click "Load Template" to see an example with a sample string that demonstrates common binding patterns.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 gregory4312. All rights reserved. This tool is provided as-is for Minecraft JSON UI development.</p>
+    </footer>
+
     <script src="src/script.js"></script>
 </body>
 </html>

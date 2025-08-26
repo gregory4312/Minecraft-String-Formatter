@@ -1,9 +1,10 @@
-    let currentString = '';
+let currentString = '';
     let clearedString = '';
     let bindings = [];
     let isSelecting = false;
     let selectionStart = -1;
     let selectionEnd = -1;
+    let hasShownSelectAlert = false;
     let colors = [
         '#FF5722', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3',
         '#00BCD4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39',
@@ -113,6 +114,10 @@
         chars.forEach(char => {
             char.addEventListener('click', handleCharClick);
             char.addEventListener('mouseenter', handleCharHover);
+            // Add blinking animation when in selection mode
+            if (isSelecting) {
+                char.classList.add('selecting');
+            }
         });
 
         // Add click handlers for binding segments
@@ -161,6 +166,9 @@
             selectionEnd++; // Make it inclusive
             updateSelection();
             isSelecting = false;
+            // Remove blinking animation from all chars
+            const chars = document.querySelectorAll('.string-char');
+            chars.forEach(char => char.classList.remove('selecting'));
         }
     }
 
@@ -249,7 +257,16 @@
         selectionEnd = -1;
         clearSelectionHighlight();
         document.getElementById('selectionInfo').style.display = 'none';
-        alert('Click on characters to select a range. Click start position, then end position.');
+        
+        // Show alert only once per page refresh
+        if (!hasShownSelectAlert) {
+            alert('Click on characters to select a range. Click start position, then end position.');
+            hasShownSelectAlert = true;
+        }
+        
+        // Add blinking animation to all selectable chars
+        const chars = document.querySelectorAll('.string-char:not(.binding-char)');
+        chars.forEach(char => char.classList.add('selecting'));
     }
 
     function clearSelection() {
@@ -258,6 +275,10 @@
         selectionEnd = -1;
         clearSelectionHighlight();
         document.getElementById('selectionInfo').style.display = 'none';
+        
+        // Remove blinking animation from all chars
+        const chars = document.querySelectorAll('.string-char');
+        chars.forEach(char => char.classList.remove('selecting'));
     }
 
     function createBinding() {
@@ -302,6 +323,61 @@
         displayBindings();
         clearSelection();
         document.getElementById('targetProperty').value = '';
+    }
+
+    function loadTemplate() {
+        // Clear existing data
+        clearAll(true);
+        
+        // Set template values
+        document.getElementById('flagInput').value = '§f§l§a§g';
+        document.getElementById('stringInput').value = '§f§l§a§g10//20//item.block.concrete.name//05/10//';
+        
+        // Auto-analyze the template
+        analyzeString();
+        
+        // Auto-create template bindings
+        setTimeout(() => {
+            // Create binding for #player_health (10//)
+            selectionStart = 0;
+            selectionEnd = 4;
+            document.getElementById('targetProperty').value = '#player_health';
+            createBinding();
+            
+            // Create binding for #player_health_max (20//)
+            selectionStart = 4;
+            selectionEnd = 8;
+            document.getElementById('targetProperty').value = '#player_health_max';
+            createBinding();
+            
+            // Create binding for #icon (item.block.concrete.name//)
+            selectionStart = 8;
+            selectionEnd = 34;
+            document.getElementById('targetProperty').value = '#icon';
+            createBinding();
+            
+            // Create binding for #player_progress (05/10//)
+            selectionStart = 34;
+            selectionEnd = 41;
+            document.getElementById('targetProperty').value = '#player_progress';
+            createBinding();
+        }, 100);
+    }
+
+    function showHelp() {
+        document.getElementById('helpModal').style.display = 'block';
+    }
+
+    function closeHelp() {
+        document.getElementById('helpModal').style.display = 'none';
+    }
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+        const modal = document.getElementById('helpModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
     }
 
     function importBinding() {
@@ -698,6 +774,7 @@
         selectionStart = -1;
         selectionEnd = -1;
         isSelecting = false;
+        hasShownSelectAlert = false; // Reset the alert flag
 
         document.getElementById('stringInput').value = '';
         document.getElementById('displaySection').style.display = 'none';
@@ -708,6 +785,10 @@
         if (!keepFlag) {
             document.getElementById('flagInput').value = '';
         }
+
+        // Remove blinking animation from all chars
+        const chars = document.querySelectorAll('.string-char');
+        chars.forEach(char => char.classList.remove('selecting'));
     }
 
     function escapeHtml(text) {
@@ -717,5 +798,5 @@
     }
 
     window.onload = function() {
-        analyzeString();
+        // Don't auto-analyze on load anymore
     };
