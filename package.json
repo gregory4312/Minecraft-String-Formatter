@@ -1,0 +1,42 @@
+{
+  "name": "minecraft-string-formatter",
+  "version": "1.0.0",
+  "description": "A web tool for formatting Minecraft JSON UI binding strings",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx live-server --port=3000",
+    "build": "echo 'Static site - no build needed'",
+    "deploy": "gh-pages -d .",
+    "predeploy": "echo 'Preparing for deployment'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gregory4312/minecraft-string-formatter.git"
+  },
+  "keywords": [
+    "minecraft",
+    "bedrock",
+    "json-ui",
+    "hud",
+    "string-formatting",
+    "javascript"
+  ],
+  "author": "Grigoris Gkogkas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gregory4312/minecraft-string-formatter/issues"
+  },
+  "homepage": "https://gregory4312.github.io/minecraft-string-formatter/",
+  "devDependencies": {
+    "gh-pages": "^6.1.0",
+    "live-server": "^1.2.2",
+    "serve": "^14.2.1"
+  },
+  "dependencies": {},
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
