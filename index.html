@@ -1,0 +1,72 @@
+            <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft JSON UI String Formatter</title>
+    <link rel="stylesheet" href="src/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Minecraft JSON UI String Formatter</h1>
+        
+        <div class="section">
+            <h3>Configuration</h3>
+            <div class="input-group">
+                <label for="flagInput">Flag Pattern (what to look for at the beginning):</label>
+                <input type="text" id="flagInput" value="" placeholder="Enter flag pattern">
+            </div>
+            
+            <div class="input-group">
+                <label for="stringInput">Input String:</label>
+                <textarea id="stringInput" placeholder="Paste your formatted string here..."></textarea>
+            </div>
+            
+            <button onclick="analyzeString()">Analyze String</button>
+            <button class="secondary" onclick="clearAll()">Clear All</button>
+        </div>
+
+        <div class="section" id="displaySection" style="display: none;">
+            <h3>String Analysis</h3>
+            <div class="info">
+                <div>Original Length: <span id="originalLength">0</span> characters</div>
+                <div>Cleared Text Length: <span id="clearedLength">0</span> characters (after removing flag)</div>
+                <div>Code Point Length: <span id="codePointLength">0</span> code points</div>
+            </div>
+            
+            <div class="color-legend" id="colorLegend" style="display: none;">
+                <div class="color-item">
+                    <div class="color-box" style="background-color: #FF9800;"></div>
+                    <span>Flag</span>
+                </div>
+            </div>
+            
+            <div class="selection-info" id="selectionInfo" style="display: none;">
+                Selection: <span id="selectionDetails"></span>
+            </div>
+            
+            <div class="string-display" id="stringDisplay"></div>
+            
+            <div style="margin-top: 15px;">
+                <button onclick="startSelection()">Select Range</button>
+                <button class="secondary" onclick="clearSelection()">Clear Selection</button>
+                <input type="text" id="targetProperty" placeholder="Target property name (e.g., #player_health)" style="width: 300px; display: inline-block; margin: 5px;">
+                <button onclick="createBinding()">Create Binding</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Bindings Management</h3>
+            <div style="margin-bottom: 15px;">
+                <textarea id="importBinding" placeholder="Paste binding JSON here to import, or paste entire JSON file to auto-extract bindings..." rows="6"></textarea>
+                <button onclick="importBinding()">Import Binding(s)</button>
+                <button onclick="importJsonFile()">Auto-Extract from JSON File</button>
+                <button class="secondary" onclick="exportAllBindings()">Export All Bindings</button>
+            </div>
+            
+            <div class="binding-list" id="bindingList"></div>
+        </div>
+    </div>
+    <script src="src/script.js"></script>
+</body>
+</html>
