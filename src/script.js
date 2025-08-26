@@ -798,5 +798,16 @@ let currentString = '';
     }
 
     window.onload = function() {
-        // Don't auto-analyze on load anymore
-    };
+    // Existing onload code (if any)
+    
+    // Start pulsing animation for help button
+    const helpBtn = document.getElementById('globalHelpBtn');
+    if (helpBtn) {
+        helpBtn.classList.add('pulse');
+        
+        // Remove pulsing after 30 seconds
+        setTimeout(() => {
+            helpBtn.classList.remove('pulse');
+        }, 30000);
+    }
+};

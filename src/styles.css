@@ -67,15 +67,6 @@ button.secondary {
 button.secondary:hover {
     background: #1976D2;
 }
-.top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-}
-.top-bar h3 {
-    margin: 0;
-}
 .help-btn {
     width: 30px;
     height: 30px;
@@ -260,4 +251,57 @@ button.secondary:hover {
     margin: 0;
     color: #888;
     font-size: 14px;
+}
+.header {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin: 0;
+    padding-right: 50px; /* Make space for the help button */
+}
+
+.global-help-btn {
+    position: absolute;
+    top: 60px;
+    right: 60px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #2196F3;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    transition: background-color 0.3s ease;
+}
+
+.global-help-btn:hover {
+    background: #1976D2;
+}
+
+.global-help-btn.pulse {
+    animation: helpPulse 2s infinite;
+}
+
+@keyframes helpPulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.7);
+    }
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(33, 150, 243, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(33, 150, 243, 0);
+    }
 }
