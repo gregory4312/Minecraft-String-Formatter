@@ -32,10 +32,6 @@ This project is open source and available under the [MIT License](LICENSE).
 - Inspired by the need for better JSON UI binding management tools
 - Thanks to all contributors and users who provide feedback
 
-## 📞 Support
-
-- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/gregory4312/minecraft-string-formatter/discussions)
-
 ---
 
 **Made with ❤️ for the Minecraft community**
