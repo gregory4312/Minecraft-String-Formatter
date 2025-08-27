@@ -109,14 +109,15 @@ button.secondary:hover {
     background-color: rgba(76, 175, 80, 0.3);
 }
 @keyframes blink {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(76, 175, 80, 0.3); }
-    100% { background-color: transparent; }
+  0%   { background-color: transparent; }
+  50%  { background-color: rgba(76, 175, 80, 0.3); }
+  100% { background-color: transparent; }
 }
-.string-char.selecting {
-    animation: blink 1s infinite;
-    cursor: pointer;
+
+.string-char.blink {
+  animation: blink 1s infinite;
 }
+
 .binding-segment {
     padding: 2px;
     border-radius: 2px;

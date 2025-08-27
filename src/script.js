@@ -151,40 +151,65 @@ let currentString = '';
     }
 
     function handleCharClick(event) {
-        if (!isSelecting) return;
+    if (!isSelecting) return;
 
-        const pos = parseInt(event.target.dataset.pos);
+    const pos = parseInt(event.target.dataset.pos);
 
-        if (selectionStart === -1) {
-            selectionStart = pos;
-            updateSelection();
-        } else {
-            selectionEnd = pos;
-            if (selectionEnd < selectionStart) {
-                [selectionStart, selectionEnd] = [selectionEnd, selectionStart];
-            }
-            selectionEnd++; // Make it inclusive
-            updateSelection();
-            isSelecting = false;
-            // Remove blinking animation from all chars
-            const chars = document.querySelectorAll('.string-char');
-            chars.forEach(char => char.classList.remove('selecting'));
+    if (selectionStart === -1) {
+        // First click: set start point
+        selectionStart = pos;
+
+        // Stop blinking and make it steady selected
+        document.querySelectorAll('.string-char').forEach(c => c.classList.remove('blink'));
+        clearSelectionHighlight();
+        highlightRange(selectionStart, selectionStart + 1);
+
+    } else {
+        // Second click: set end point
+        selectionEnd = pos;
+        if (selectionEnd < selectionStart) {
+            [selectionStart, selectionEnd] = [selectionEnd, selectionStart];
         }
+        selectionEnd++; // inclusive
+
+        clearSelectionHighlight();
+        highlightRange(selectionStart, selectionEnd);
+        updateSelectionInfo(selectionStart, selectionEnd);
+
+        isSelecting = false;
+    }
+}
+
+
+
+
+   function handleCharHover(event) {
+    if (!isSelecting) return;
+
+    const pos = parseInt(event.target.dataset.pos);
+
+    // Case 1: No start point chosen yet → hovered char blinks
+    if (selectionStart === -1) {
+        document.querySelectorAll('.string-char').forEach(c => c.classList.remove('blink'));
+        event.target.classList.add('blink');
+        return;
     }
 
-    function handleCharHover(event) {
-        if (!isSelecting || selectionStart === -1) return;
+    // Case 2: Start point chosen → steady highlight (no blinking)
+    let tempEnd = pos + 1;
+    let tempStart = selectionStart;
 
-        const pos = parseInt(event.target.dataset.pos);
-        let tempEnd = pos + 1;
-        let tempStart = selectionStart;
-
-        if (tempEnd < tempStart) {
-            [tempStart, tempEnd] = [tempEnd - 1, tempStart + 1];
-        }
-
-        updateSelectionPreview(tempStart, tempEnd);
+    if (tempEnd < tempStart) {
+        [tempStart, tempEnd] = [tempEnd - 1, tempStart + 1];
     }
+
+    document.querySelectorAll('.string-char').forEach(c => c.classList.remove('blink')); // remove blinking
+    clearSelectionHighlight();
+    highlightRange(tempStart, tempEnd); // steady .selected
+    updateSelectionInfo(tempStart, tempEnd);
+}
+
+
 
     function handleBindingSegmentClick(event) {
         event.stopPropagation(); // Prevent char click from firing
@@ -263,10 +288,6 @@ let currentString = '';
             alert('Click on characters to select a range. Click start position, then end position.');
             hasShownSelectAlert = true;
         }
-        
-        // Add blinking animation to all selectable chars
-        const chars = document.querySelectorAll('.string-char:not(.binding-char)');
-        chars.forEach(char => char.classList.add('selecting'));
     }
 
     function clearSelection() {
@@ -278,7 +299,10 @@ let currentString = '';
         
         // Remove blinking animation from all chars
         const chars = document.querySelectorAll('.string-char');
-        chars.forEach(char => char.classList.remove('selecting'));
+        chars.forEach(char => {
+          char.classList.remove('selecting');
+          char.classList.remove('blink');
+        });
     }
 
     function createBinding() {
